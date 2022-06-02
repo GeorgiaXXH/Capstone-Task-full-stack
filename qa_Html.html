@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>testSocket——ws://127.0.0.1:8181</title>
+    <script>
+        var socket;
+        if ("WebSocket" in window) {
+            var ws = new WebSocket("ws://127.0.0.1:8181/test");
+            socket = ws;
+            ws.onopen = function() {
+                console.log('Connected!');
+                document.getElementById("showMes").value+="Do you have any questions about this property？"+"\n";
+
+            };
+            ws.onmessage = function(evt) {
+                var received_msg = evt.data;
+                console.log(received_msg);
+
+                document.getElementById("showMes").value+=received_msg+"\n";
+            };
+            ws.onclose = function() {
+                alert("Disconnection");
+            };
+        } else {
+            alert("Browser cannot support WebSocket");
+        }
+        function sendMeg(){
+            var message="ME:"+document.getElementById("mes").value;
+            document.getElementById("showMes").value+=message+"\n\n";
+            socket.send(message);
+        }
+    </script>
+</head>
+<body>
+<div style="display: flex;width: 100%;height: 100%">
+<div style="margin: auto;text-align: center;">
+    <h1>Question and Answer System based on California Real Estate Market</h1>
+<textarea rows="3" cols="30" id="showMes" style="width:1000px;height:500px;"></textarea>
+</div>
+</div>
+    <br/>
+<div style="margin-left: 25%">
+    <label>Message</label>
+    <input type="text" id="mes"/>
+    <button onclick="sendMeg();">Submit</button>
+</div>
+<div style="margin-left: 65%"><img src="static/1.jpg"></div>
+</body>
+</html>
+<style>
+    .aa{
+        border: 1px solid black;
+    }
+</style>
